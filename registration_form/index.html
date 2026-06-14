@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Form</title>
+</head>
+<body>
+    <a href="#" onclick="document.getElementById('showContent').textContent = 'Invalid Email'">Show Content</a>
+    <a href="#" onclick="document.getElementById('showContent').textContent = ''">Hide Content</a>
+
+    <p id="showContent"></p>
+
+    <form action="" method="" id="registrationForm" class="registration-form">
+        <h2>Registration Form</h2>
+        <div class="field">
+            <label for="fullName">Full Name: </label>
+            <input type="text" id="fullName" name="fullName">
+            <p id="fullNameError" class="error"></p>
+            <br />
+        </div>
+        <div class="field">
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email">
+            <p id="emailError" class="error"></p>
+            <br />
+        </div>
+        <div class="field">
+            <label for="phone">Phone Number: </label>
+            <input type="tel" id="phone" name="phone">
+            <p id="phoneError" class="error"></p>
+            <br />
+        </div>
+
+        <div class="field">
+            <button type="submit">Register</button>
+        </div>
+    </form>
+
+    <p id="validationMessage" class="success"></p>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            document.getElementById('fullNameError').textContent = "";
+            document.getElementById('emailError').textContent = "";
+            document.getElementById('phoneError').textContent = "";
+            document.getElementById('validationMessage').textContent = "";
+
+            let isValid = true;
+
+            const fullName = document.getElementById("fullName").value.trim();
+            if (fullName === '') {
+                document.getElementById("fullNameError").textContent = 'Full Name is required.';
+                isValid = false;
+            } else if (fullName.length < 3) {
+                document.getElementById("fullNameError").textContent = "Full Name must be at least 3 characters long.";
+                isValid = false;
+            } else if (!/^[a-zA-Z\s']+$/.test(fullName)) {
+                document.getElementById("fullNameError").textContent = "Full Name can only contain letters, spaces, and apostrophes.";
+                isValid = false;
+            }
+
+            const email = document.getElementById("email").value.trim();
+            if (email === '') {
+                document.getElementById("emailError").textContent = 'Email is required.';
+                isValid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById("emailError").textContent = "Please enter a valid email.";
+                isValid = false;
+            }
+
+            const phone = document.getElementById("phone").value.trim();
+            const validPhonePattern = /^\+?\d{10,15}$/;
+            if (phone === '') {
+                document.getElementById("phoneError").textContent = "Phone Number is required";
+                isValid = false;
+            } else if (!validPhonePattern.test(phone)) {
+                document.getElementById("phoneError").textContent = "Phone Number must be between 10 and 15 digits";
+                isValid = false;
+            }
+
+            if (isValid) {
+                document.getElementById("validationMessage").textContent = "Form submitted successfully.";
+                document.getElementById("validationMessage").classList.remove("error");
+                document.getElementById("validationMessage").classList.add("success");
+            }
+            else {
+                document.getElementsById("Please fill in all the fields.");
+                document.getElementById("validationMessage").classList.remove("success");
+                document.getElementById("validationMessage").classList.add("error");
+            }
+        })
+    </script>
+</body>
+</html>
